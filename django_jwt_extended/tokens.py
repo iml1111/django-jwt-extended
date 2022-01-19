@@ -44,14 +44,14 @@ def get_jwt(request: HttpRequest):
         raise InvalidRequest(str(type(request)))
     return request.META.get('jwt_payload')
 
-"""Inner Func"""
 
+"""Inner Func"""
 def _create_payload(identity, type: str, config: DjangoJwtExtConfig):
     if type == 'access':
         expires = config.access_token_expires
     else:
         expires = config.refresh_token_expires
-    now = timezone.now()
+    now = datetime.utcnow()
     return {
         'iat': now,
         'jti': str(uuid4()),
@@ -82,12 +82,7 @@ def _parse_jwt_token(jwt_token: str, location: str):
 
 
 def _validate_payload(payload: dict, type: str):
-    expires = datetime.fromtimestamp(payload['exp'])
-    expires = timezone.make_aware(expires)
-    now = timezone.now()
-    if now > expires:
-        return 'expired'
-    elif payload['type'] != type:
+    if payload['type'] != type:
         return 'invalid type'
     else:
         return "valid"

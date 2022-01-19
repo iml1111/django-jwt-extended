@@ -45,3 +45,6 @@ class DjangoJwtExtConfig(AppConfig):
         self.invalid_token_type_msg = {
             'msg': "Invalid JWT token type"
         }
+        self.invalid_nbf_msg = {
+            'msg': "The token is not yet valid (nbf)"
+        }

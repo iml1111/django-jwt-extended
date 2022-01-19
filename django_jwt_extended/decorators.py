@@ -10,7 +10,11 @@ from .exceptions import (
 	InvalidRefresh,
 )
 import jwt
-from jwt.exceptions import InvalidSignatureError
+from jwt.exceptions import (
+	InvalidSignatureError,
+	ImmatureSignatureError,
+	ExpiredSignatureError,
+)
 
 
 def jwt_required(optional=False, refresh=False):
@@ -39,25 +43,27 @@ def jwt_required(optional=False, refresh=False):
 			elif optional and jwt_token is None:
 				return fn(*args, **kwargs)
 
-			jwt_token = _parse_jwt_token(jwt_token, location)
 			# header 토큰에 한하여, Bearer 포맷이 아닐 경우
+			jwt_token = _parse_jwt_token(jwt_token, location)
 			if jwt_token is None:
 				return JsonResponse(config.bearer_error_msg, status=401)
 
 			try:
 				payload = jwt.decode(
 					jwt_token, settings.SECRET_KEY,
-					config.jwt_algorithm
+					config.jwt_algorithm,
 				)
-			# 시크릿키로 토큰 검증에 실패할 경우
 			except InvalidSignatureError:
 				return JsonResponse(config.decode_error_msg, status=401)
+			except ImmatureSignatureError:
+				return JsonResponse(config.invalid_nbf_msg, status=401)
+			except ExpiredSignatureError:
+				return JsonResponse(config.expired_token_msg, status=401)
+
 
 			# 토큰의 유효기간, 액세스/리프레시 검증
 			valid = _validate_payload(payload, 'refresh' if refresh else 'access')
-			if valid == 'expired':
-				return JsonResponse(config.expired_token_msg, status=401)
-			elif valid == 'invalid type':
+			if valid == 'invalid type':
 				return JsonResponse(config.invalid_token_type_msg, status=401)
 
 			request.META['jwt_payload'] = payload
