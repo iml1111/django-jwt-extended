@@ -22,7 +22,7 @@ def jwt_required(optional=False, refresh=False):
 	if not isinstance(optional, bool):
 		raise InvalidOptional(str(type(optional)))
 	if not isinstance(refresh, bool):
-		return InvalidRefresh(str(type(refresh)))
+		raise InvalidRefresh(str(type(refresh)))
 
 	def wrapper(fn):
 		@wraps(fn)
