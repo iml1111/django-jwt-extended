@@ -3,7 +3,6 @@ from uuid import uuid4
 import jwt
 from django.apps import apps
 from django.http import HttpRequest
-from django.utils import timezone
 from django.conf import settings
 from .apps import DjangoJwtExtConfig
 from .request import REQUESTS
