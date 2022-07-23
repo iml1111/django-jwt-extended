@@ -4,7 +4,10 @@ class NotFoundRequest(Exception):
         self.fn_name = fn_name
 
     def __str__(self):
-        return f'In "{self.fn_name}" view, "Request object" was not detected in the argument.'
+        return (
+            f'In "{self.fn_name}" view, "Request object" was not detected in the argument.',
+            'If you run into any issues, please report them here: (https://github.com/iml1111/django-jwt-extended/issues)'
+        )
 
 
 class NotFoundSecretKey(Exception):
