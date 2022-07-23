@@ -20,6 +20,12 @@ class ConfigParser:
         self.token_location = self.validate_token_location(config)
         self.access_token_expires = self.validate_access_token_expires(config)
         self.refresh_token_expires = self.validate_refresh_token_expires(config)
+        self.jwt_not_found_msg = self.customize_jwt_not_found(config)
+        self.bearer_error_msg = self.customize_bearer_error(config)
+        self.decode_error_msg = self.customize_decode_error(config)
+        self.expired_token_msg = self.customize_expired_token(config)
+        self.invalid_token_type_msg = self.customize_invalid_token_type(config)
+        self.invalid_nbf_msg = self.customize_invalid_nbf(config)
 
     @staticmethod
     def validate_jwt_algorithm(config: dict):
@@ -56,4 +62,50 @@ class ConfigParser:
             raise InvalidExpires('REFRESH_TOKEN')
         return expires
 
+    @staticmethod
+    def customize_jwt_not_found(config: dict):
+        jwt_not_found = config.get('JWT_NOT_FOUND_MSG', 'JWT token not found')
+        return {'msg': jwt_not_found}
 
+    @staticmethod
+    def customize_bearer_error(config: dict):
+        bearer_error = config.get('BEARER_ERROR_MSG',
+            (
+                f"Missing 'Bearer' type in "
+                f"'Authorization' header."
+                f" Expected 'Authorization: "
+                f"Bearer <JWT>'"
+            )
+        )
+        return {'msg': bearer_error}
+
+    @staticmethod
+    def customize_decode_error(config: dict):
+        decode_error = config.get(
+            'DECODE_ERROR_MSG', 
+            'Signature verification failed.'
+        )
+        return {'msg': decode_error}
+
+    @staticmethod
+    def customize_expired_token(config: dict):
+        expired_token = config.get('EXPIRED_TOKEN_MSG', 'JWT Token has expired')
+        return {'msg': expired_token}
+
+    @staticmethod
+    def customize_invalid_token_type(config: dict):
+        invalid_token_type = config.get(
+            'INVALID_TOKEN_TYPE_MSG', 
+            "Invalid JWT token type"
+        )
+        return {'msg': invalid_token_type}
+    
+    @staticmethod
+    def customize_invalid_nbf(config: dict):
+        invalid_nbf = config.get(
+            'INVALID_NBF_MSG', 
+            "The token is not yet valid (nbf)"
+        )
+        return {'msg': invalid_nbf}
+
+    
