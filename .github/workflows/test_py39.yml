@@ -22,4 +22,4 @@ jobs:
 
       - name: Test Application
         run: |
-          python test.py
+          python test.py || exit 1
