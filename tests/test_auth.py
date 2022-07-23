@@ -115,6 +115,21 @@ class AuthTestCase(unittest.TestCase):
         request = self.factory.get('/user')
         response = user(request)
         self.assertEqual(response.status_code, 401)
+        self.assertEqual(
+            response.content.decode(encoding='utf8'),
+            json.dumps({'msg': "can't find JWT token."})
+        )
+
+    def test_token_header_not_bearer(self):
+        """Test Token Header Not Bearer"""
+        request = self.factory.get(
+            '/user',
+            HTTP_Authorization=(
+                self.access_token
+            )
+        )
+        response = user(request)
+        self.assertEqual(response.status_code, 401)
 
     def test_expired_token_auth(self):
         """Test Expired Token Auth"""

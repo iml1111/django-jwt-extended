@@ -1,8 +1,10 @@
+import json
 from datetime import timedelta
 from django.utils import timezone
 from django.apps import apps
 from .exceptions import (
     ConfigIsNotDict,
+    InvalidJsonFormat,
     InvalidJwtAlgorithm,
     InvalidLocation,
     InvalidExpires,
@@ -20,6 +22,7 @@ class ConfigParser:
         self.token_location = self.validate_token_location(config)
         self.access_token_expires = self.validate_access_token_expires(config)
         self.refresh_token_expires = self.validate_refresh_token_expires(config)
+        self.errors = self.customize_error(config)
 
     @staticmethod
     def validate_jwt_algorithm(config: dict):
@@ -56,4 +59,38 @@ class ConfigParser:
             raise InvalidExpires('REFRESH_TOKEN')
         return expires
 
+    @staticmethod
+    def customize_error(config: dict):
 
+        def validate_json(data: dict):
+            try:
+                json.dumps(data)
+            except ValueError:
+                return False
+            return True
+
+        default_error = {
+            'JWT_NOT_FOUND_MSG': {'msg': 'JWT token not found'},
+            'DECODE_ERROR_MSG': {'msg': 'Signature verification failed.'},
+            'EXPIRED_TOKEN_MSG': {'msg': 'JWT token has expired'},
+            'INVALID_TOKEN_TYPE_MSG': {'msg': "Invalid JWT token type"},
+            'INVALID_NBF_MSG': {'msg': "The token is not yet valid (nbf)"},
+            'BEARER_ERROR_MSG': {
+                'msg':(
+                        f"Missing 'Bearer' type in "
+                        f"'Authorization' header."
+                        f" Expected 'Authorization: "
+                        f"Bearer <JWT>'"
+                    )
+            },
+        }
+
+        customized_error = {}
+        for error in default_error.keys():
+            target = config.get(error, default_error[error])
+            if not validate_json(target):
+                raise InvalidJsonFormat()
+
+            customized_error[error] = target
+
+        return customized_error

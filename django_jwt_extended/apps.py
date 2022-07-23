@@ -24,27 +24,10 @@ class DjangoJwtExtConfig(AppConfig):
         self.refresh_token_expires = data.refresh_token_expires
         self.token_header_name = 'Authorization'
 
-        # default error messages
-        self.jwt_not_found_msg = {
-            'msg': 'JWT token not found'
-        }
-        self.bearer_error_msg = {
-            'msg': (
-                f"Missing 'Bearer' type in "
-                f"'{self.token_header_name}' header."
-				f" Expected '{self.token_header_name}: "
-                f"Bearer <JWT>'"
-            )
-        }
-        self.decode_error_msg = {
-            'msg': 'Signature verification failed.'
-        }
-        self.expired_token_msg = {
-            'msg': 'JWT Token has expired'
-        }
-        self.invalid_token_type_msg = {
-            'msg': "Invalid JWT token type"
-        }
-        self.invalid_nbf_msg = {
-            'msg': "The token is not yet valid (nbf)"
-        }
+        self.jwt_not_found_msg = data.errors['JWT_NOT_FOUND_MSG']
+        self.bearer_error_msg = data.errors['BEARER_ERROR_MSG']
+        self.decode_error_msg = data.errors['DECODE_ERROR_MSG']
+        self.expired_token_msg = data.errors['EXPIRED_TOKEN_MSG']
+        self.invalid_token_type_msg = data.errors['INVALID_TOKEN_TYPE_MSG']
+        self.invalid_nbf_msg = data.errors['INVALID_NBF_MSG']
+        
