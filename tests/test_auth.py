@@ -125,6 +125,7 @@ class AuthTestCase(unittest.TestCase):
             )
         )
         response = user(request)
+        print(response.content.decode(encoding='utf8'))
         self.assertEqual(response.status_code, 401)
 
     def test_expired_token_auth(self):

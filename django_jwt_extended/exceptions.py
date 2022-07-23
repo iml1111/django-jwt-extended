@@ -87,3 +87,12 @@ class InvalidRefresh(Exception):
         return (
             f"'refresh' param must be bool type, not {self.param}."
         )
+
+
+class InvalidJsonFormat(Exception):
+
+    def __str__(self):
+        return (
+            f"Invalid JSON format."
+            f"Error config must be JSON serializable."
+        )
