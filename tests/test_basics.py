@@ -11,7 +11,7 @@ class BasicsTestCase(unittest.TestCase):
 
     def test_module_exists(self):
         """Run Module Exists"""
-        self.assertFalse(self.config is None)
+        self.assertTrue(self.config is None)
 
     def test_config_exists(self):
         """App config Exists"""
