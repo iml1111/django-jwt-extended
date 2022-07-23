@@ -60,3 +60,5 @@ def setup_django():
     )
 
     django.setup()
+
+setup_django()
