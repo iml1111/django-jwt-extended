@@ -53,6 +53,7 @@ def setup_django():
             'LOCATION': ['headers'],
             'ACCESS_TOKEN_EXPIRES': timedelta(days=2),
             'REFRESH_TOKEN_EXPIRES': timedelta(days=30),
+            'JWT_NOT_FOUND_MSG': {'msg': "can't find JWT token."}
         },
         TIME_ZONE='Asia/Seoul',
         USE_TZ=False,
