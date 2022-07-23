@@ -1,7 +1,7 @@
 name: Test (Python3.9)
 
 on:
-  push:
+  pull_request:
     branches:
       - '*'
 
