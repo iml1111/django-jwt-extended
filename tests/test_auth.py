@@ -3,7 +3,7 @@ from django.conf import settings
 from django.test import RequestFactory
 from django.apps import apps
 from tests.sample.views import (
-    login, refresh, 
+    login, decorator_user, refresh, 
     user, user_optional,
     RestAPIView, rest_user
 )
@@ -33,6 +33,17 @@ class AuthTestCase(unittest.TestCase):
             )
         )
         response = user(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_auth_decorator(self):
+        """Run Authentication basic with Decorator"""
+        request = self.factory.get(
+            '/user',
+            HTTP_Authorization=(
+                "Bearer " + self.access_token
+            )
+        )
+        response = decorator_user(request)
         self.assertEqual(response.status_code, 200)
 
     def test_refresh(self):
