@@ -1,12 +1,8 @@
-# Django-JWT-Extended ![Python versions](https://img.shields.io/badge/Python-3.6<=@-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Release](https://img.shields.io/badge/release-0.1.1-red)
-쉽고 빠르게 Django로 JWT 인증 기능을 구현해보세요!
+# Django-JWT-Extended
 
+![Python versions](https://img.shields.io/pypi/pyversions/django-jwt-extended) ![License](https://img.shields.io/badge/license-MIT-green) ![Release](https://img.shields.io/badge/release-1.0.0-red)
 
-
-## Requirements
-
-- Python (3.6, 3.7, 3.8, 3.9, 3.10)
-- Django (2.2, 3.0, 3.1, 3.2, 4.0)
+Implement JWT authentication with Django quickly and easily!
 
 
 
