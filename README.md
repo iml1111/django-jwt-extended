@@ -6,11 +6,11 @@ Implement JWT authentication with Django quickly and easily!
 
 
 
-## Installation
+# Installation
 
 **Pip**: `pip install django-jwt-extended`
 
-그 후, `INSTALLED_APPS` settings에 `django_jwt_extended`를 추가해주세요.
+After that, add `django_jwt_extended` to `INSTALLED_APPS` settings.
 
 ```
 INSTALLED_APPS = [
@@ -21,11 +21,11 @@ INSTALLED_APPS = [
 
 
 
-## Get Started
+# Get Started
 
-django-jwt-extended는 최대한 쉽고 간단하게 인증 기능을 구현할 수 있도록 만들었어요!
+`django-jwt-extended` makes it easy and simple to create authentication feature.
 
-### Startup your project
+## Startup your project
 
 ```shell
 $ pip install django
@@ -35,7 +35,7 @@ $ python manage.py migrate
 $ python manage.py createsuperuser
 ```
 
-### Edit your views
+## Edit your views
 
 ```python
 # views.py
@@ -59,5 +59,21 @@ def user(request):
 
 
 
-### **문서화 진행 중 입니다...😢**
+# Configuration
+
+Even if you don't configure anything, this app works.
+
+But In `settings.py` in your app, You can customize this app through the following settings.
+
+## SECRET KEY
+
+This is the secret key setting that Django supports by default. 
+
+`Django-jwt-extended` also, the key is used when encoding/decoding JWT.
+
+
+
+# Advanced Usage
+
+
 
