@@ -65,11 +65,71 @@ Even if you don't configure anything, your app works.
 
 But in `settings.py` in your app, You can customize your app through the following settings.
 
-## SECRET KEY
+## SECRET_KEY
 
 This is the secret key setting that Django supports by default. 
 
 `Django-jwt-extended` also, the key is used when encoding/decoding JWT.
+
+## JWT_CONFIG
+
+`JWT_CONFIG` is a setting added for `django_jwt_extended`. 
+
+Additional settings can be added as follows in the form of a dictionary.
+
+### ALGORITHM
+
+`ALGORITHM: "HS256" `
+
+- default: `HS256`
+- allowed_values: `HS256`
+
+Select the encode/decode algorithm for issuing tokens. (Currently only '**HS256**' is supported)
+
+### LOCATION
+
+`LOCATION: ["headers"]`
+
+- default: `["headers"]`
+- allowed_values: `headers`, `cookies`
+
+This setting determines where to collect the Tokens. The thing to note is that **input is received as a list, not as a single string**. You can pass in a list to check more then one location, for example `["headers", "cookies"]`. The order of the list sets the precedence of where JWTs will be looked for.
+
+### ACCESS_TOKEN_EXPIRES
+
+`ACCESS_TOKEN_EXPIRES: 60 * 24 * 2 # 2days`
+
+- default: `60 * 24 * 2`
+- allowed_types: integer
+
+How long an access token should be valid before it expires. This can be a a number of seconds (`Integer`).
+
+### REFRESH_TOKEN_EXPIRES
+
+`REFRESH_TOKEN_EXPIRES: 60 * 24 * 30 # 1month`
+
+- default: `60 * 24 * 30`
+- allowed_types: integer
+
+How long a refresh token should be valid before it expires. This can be a number of seconds (`Integer`).
+
+### Custom Error Responses
+
+
+
+- JWT_NOT_FOUND_MSG
+
+- DECODE_ERROR_MSG
+
+- EXPIRED_TOKEN_MSG
+
+- INVALID_TOKEN_TYPE_MSG
+
+- INVALID_NBF_MSG
+
+- BEARER_ERROR_MSG
+
+
 
 
 
@@ -77,3 +137,6 @@ This is the secret key setting that Django supports by default.
 
 
 
+# inspired by
+
+- https://github.com/vimalloc/flask-jwt-extended
