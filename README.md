@@ -61,9 +61,9 @@ def user(request):
 
 # Configuration
 
-Even if you don't configure anything, this app works.
+Even if you don't configure anything, your app works.
 
-But In `settings.py` in your app, You can customize this app through the following settings.
+But in `settings.py` in your app, You can customize your app through the following settings.
 
 ## SECRET KEY
 
