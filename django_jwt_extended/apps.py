@@ -23,6 +23,7 @@ class DjangoJwtExtConfig(AppConfig):
         self.access_token_expires = data.access_token_expires
         self.refresh_token_expires = data.refresh_token_expires
         self.token_header_name = 'Authorization'
+        self.token_cookie_name = data.token_cookie_name
 
         self.jwt_not_found_msg = data.errors['JWT_NOT_FOUND_MSG']
         self.bearer_error_msg = data.errors['BEARER_ERROR_MSG']

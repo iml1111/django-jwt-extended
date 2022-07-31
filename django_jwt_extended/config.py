@@ -11,18 +11,24 @@ from .exceptions import (
 )
 
 allowed_algorithm = ('HS256',)
-allowed_location = ('headers',)
+allowed_location = ('headers', 'cookies',)
 
 class ConfigParser:
 
     def __init__(self, config: dict):
         if not isinstance(config, dict):
             raise ConfigIsNotDict()
+        self.token_cookie_name = self.validate_token_cookie_name(config)
         self.jwt_algorithm = self.validate_jwt_algorithm(config)
         self.token_location = self.validate_token_location(config)
         self.access_token_expires = self.validate_access_token_expires(config)
         self.refresh_token_expires = self.validate_refresh_token_expires(config)
         self.errors = self.customize_error(config)
+
+    @staticmethod
+    def validate_token_cookie_name(config: dict):
+        token_cookie_name = config.get('TOKEN_COOKIE_NAME', 'token')
+        return token_cookie_name
 
     @staticmethod
     def validate_jwt_algorithm(config: dict):
@@ -33,7 +39,7 @@ class ConfigParser:
 
     @staticmethod
     def validate_token_location(config: dict):
-        token_location = config.get('LOCATION', ['headers'])
+        token_location = config.get('LOCATION', ['headers', 'cookies'])
         if not (
             isinstance(token_location, list)
             and not (set(token_location) - set(allowed_location))

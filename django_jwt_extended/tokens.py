@@ -63,12 +63,16 @@ def _create_payload(identity, type: str, config: DjangoJwtExtConfig):
 
 def _find_jwt_token(request, config: DjangoJwtExtConfig):
     for location in config.token_location:
-        # Header에서 탐지
         if (
             location == 'headers'
             and config.token_header_name in request.headers
         ):
             return request.headers[config.token_header_name], location
+        
+        elif (location == 'cookies'
+            and config.token_cookie_name in request.COOKIES
+        ):
+            return request.COOKIES[config.token_cookie_name], location
     return None, None
 
 
@@ -76,8 +80,10 @@ def _parse_jwt_token(jwt_token: str, location: str):
     if location == 'headers':
         if jwt_token.startswith('Bearer '):
             return jwt_token[7:]
-        else:
-            return None
+    elif location == 'cookies':
+        return jwt_token
+    else:
+        return None
 
 
 def _validate_payload(payload: dict, type: str):
