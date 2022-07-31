@@ -115,8 +115,6 @@ How long a refresh token should be valid before it expires. This can be a number
 
 ### Custom Error Responses
 
-
-
 - JWT_NOT_FOUND_MSG
 
 - DECODE_ERROR_MSG
