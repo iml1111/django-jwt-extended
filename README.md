@@ -62,7 +62,33 @@ def user(request):
 
 # Advanced Usage
 
-...
+This section goes into more detail about django-jwt-extended.
+
+## Return with refresh token
+
+If you want to return not only the access token but also the refresh token, you can use it as follows.
+
+```python
+from django_jwt_extended import create_access_token
+from django_jwt_extended import create_refresh_token
+
+# Login and issue tokens
+def login(request):
+    return JsonResponse({
+        "access_token": create_access_token("iml"),
+        'refresh_token': create_refresh_token('iml'),
+    })
+```
+
+## Refresh Token Authentication
+
+## Optional Authentication
+
+## Parse JWT Payload
+
+## Custom Decorator
+
+
 
 
 
@@ -70,7 +96,26 @@ def user(request):
 
 Even if you don't configure anything, your app works.
 
-But in `settings.py` in your app, You can customize your app through the following settings.
+But in `settings.py` in your app, You can customize your app through the following settings. 
+
+Here's a good sample.
+
+```python
+# settings.py
+
+SECRET_KEY = "super-secret"
+
+JWT_CONFIG = {
+  'ALGORITHM': 'HS256',
+  'LOCATION': ['headers'],
+  'ACCESS_TOKEN_EXPIRES': timedelta(days=2),
+  'REFRESH_TOKEN_EXPIRES': timedelta(days=30),
+  'JWT_NOT_FOUND_MSG': {'msg': "can't find JWT token."}
+}
+...
+```
+
+
 
 ## SECRET_KEY
 
@@ -88,14 +133,14 @@ Additional settings can be added as follows in the form of a dictionary.
 
 `ALGORITHM: "HS256" `
 
-- default: `HS256`
-- allowed_values: `HS256`
+- Default: `HS256`
+- Allowed_values: `HS256`
 
 Select the encode/decode algorithm for issuing tokens. (Currently only '**HS256**' is supported)
 
 ### LOCATION
 
-`LOCATION: ["headers"]`
+`LOCATION: ["headers", ...]`
 
 - default: `["headers"]`
 - allowed_values: `headers`, `cookies`
@@ -110,12 +155,30 @@ For headers, the header name is fixed to **"Authorization"**, and the token form
 
  In the cookie, you can directly specify **the cookie name for the access token** and **the cookie name for the refresh token.**
 
+### ACCESS_TOKEN_COOKIE_NAME
+
+`ACCESS_TOKEN_COOKIE_NAME: access_token`
+
+- Default: `access_token`
+- Allowed_types: `string`
+
+The name of the cookie that will hold the access token.
+
+### REFRESH_TOKEN_COOKIE_NAME
+
+`REFRESH_TOKEN_COOKIE_NAME: refresh_token`
+
+- Default: `refresh_token`
+- Allowed_types: `string`
+
+The name of the cookie that will hold the refresh token.
+
 ### ACCESS_TOKEN_EXPIRES
 
 `ACCESS_TOKEN_EXPIRES: 60 * 24 * 2 # 2days`
 
-- default: `60 * 24 * 2`
-- allowed_types: integer
+- Default: `60 * 24 * 2`
+- Allowed_types: `integer`, `datetime.timedelta`
 
 How long an access token should be valid before it expires. This can be a a number of seconds (`Integer`).
 
@@ -123,12 +186,17 @@ How long an access token should be valid before it expires. This can be a a numb
 
 `REFRESH_TOKEN_EXPIRES: 60 * 24 * 30 # 1month`
 
-- default: `60 * 24 * 30`
-- allowed_types: integer
+- Default: `60 * 24 * 30`
+- Allowed_types: `integer`, `datetime.timedelta`
 
 How long a refresh token should be valid before it expires. This can be a number of seconds (`Integer`).
 
 ### Custom Error Responses
+
+`<CUSTOM_ERROR_RESONSE>: {msg: "custom-error"}`
+
+- Default: `[json-object]`
+- Allowed_types: `Dict (json serializable)`
 
 When your app encounters different situations, returns different error responses with 401. When your app encounters different situations, it returns different error responses.
 
