@@ -122,7 +122,11 @@ How long a refresh token should be valid before it expires. This can be a number
 
 ### Custom Error Responses
 
+When your app encounters different situations, returns different error responses. When your app encounters different situations, it returns different error responses.
+
 - JWT_NOT_FOUND_MSG
+
+When your app encounters different situations, it returns different error responses.
 
 - DECODE_ERROR_MSG
 
