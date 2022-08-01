@@ -102,6 +102,14 @@ Select the encode/decode algorithm for issuing tokens. (Currently only '**HS256*
 
 This setting determines where to collect the Tokens. The thing to note is that **input is received as a list, not as a single string**. You can pass in a list to check more then one location, for example `["headers", "cookies"]`. The order of the list sets the precedence of where JWTs will be looked for.
 
+- **headers**
+
+For headers, the header name is fixed to **"Authorization"**, and the token format is **"Bearer [token]"**.
+
+- **cookies**
+
+ In the cookie, you can directly specify **the cookie name for the access token** and **the cookie name for the refresh token.**
+
 ### ACCESS_TOKEN_EXPIRES
 
 `ACCESS_TOKEN_EXPIRES: 60 * 24 * 2 # 2days`
