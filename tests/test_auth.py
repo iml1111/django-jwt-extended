@@ -163,37 +163,37 @@ class AuthTestCase(unittest.TestCase):
     def test_auth_basic_cookie(self):
         """Run Authentication basic"""
         request = self.factory.get('/user')
-        request.COOKIES = {'token': self.access_token}
+        request.COOKIES = {'access_token': self.access_token}
         response = user(request)
         self.assertEqual(response.status_code, 200)
 
     def test_auth_decorator_cookie(self):
         """Run Authentication basic with Decorator"""
         request = self.factory.get('/user')
-        request.COOKIES = {'token': self.access_token}
+        request.COOKIES = {'access_token': self.access_token}
         response = decorator_user(request)
         self.assertEqual(response.status_code, 200)
 
     def test_refresh_cookie(self):
         """Run Token Refresh & reauth"""
         request = self.factory.get('/refresh')
-        request.COOKIES = {'token': self.refresh_token}
+        request.COOKIES = {'refresh_token': self.refresh_token}
         response = refresh(request)
         self.assertEqual(response.status_code, 200)
         tokens = json.loads(response.content)
         access_token = tokens['access_token']
 
         request = self.factory.get('/user')
-        request.COOKIES = {'token': access_token}
+        request.COOKIES = {'access_token': access_token}
         response = user(request)
         self.assertEqual(response.status_code, 200)
 
     def test_auth_optional_cookie(self):
         """Run Auth Optional"""
         auth_request = self.factory.get('/user_optional')
-        auth_request.COOKIES = {'token': self.access_token}
+        auth_request.COOKIES = {'access_token': self.access_token}
         no_auth_request = self.factory.get('/user_optional')
-        no_auth_request.COOKIES = {'token': self.access_token}
+        no_auth_request.COOKIES = {'access_token': self.access_token}
 
         response = user_optional(auth_request)
         self.assertEqual(response.status_code, 200)
@@ -205,7 +205,7 @@ class AuthTestCase(unittest.TestCase):
         view = RestAPIView.as_view()
 
         path = "/rest-api-class"
-        token = {'token': self.access_token}
+        token = {'access_token': self.access_token}
         for method in self.methods:
             request = method(path)
             request.COOKIES = token
@@ -215,7 +215,7 @@ class AuthTestCase(unittest.TestCase):
     def test_rest_api_func_cookie(self):
         """Run REST API View Func Auth"""
         path = "/rest-api-func"
-        token = {'token': self.access_token}
+        token = {'access_token': self.access_token}
         for method in self.methods:
             request = method(path)
             request.COOKIES = token
@@ -230,7 +230,7 @@ class AuthTestCase(unittest.TestCase):
         invalid_token = jwt.encode(payload, secret_key, algorithm)
 
         request = self.factory.get('/user')
-        request.COOKIES = {'token': invalid_token}
+        request.COOKIES = {'access_token': invalid_token}
         response = user(request)
         self.assertEqual(response.status_code, 401)
 
@@ -252,7 +252,7 @@ class AuthTestCase(unittest.TestCase):
         exp_token = jwt.encode(payload, secret_key, algorithm)
 
         request = self.factory.get('/user')
-        request.COOKIE = {'token': exp_token}
+        request.COOKIE = {'access_token': exp_token}
         response = user(request)
         self.assertEqual(response.status_code, 401)
 

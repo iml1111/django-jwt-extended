@@ -18,7 +18,8 @@ class ConfigParser:
     def __init__(self, config: dict):
         if not isinstance(config, dict):
             raise ConfigIsNotDict()
-        self.token_cookie_name = self.validate_token_cookie_name(config)
+        self.access_cookie_name = self.validate_access_cookie_name(config)
+        self.refresh_cookie_name = self.validate_refresh_cookie_name(config)
         self.jwt_algorithm = self.validate_jwt_algorithm(config)
         self.token_location = self.validate_token_location(config)
         self.access_token_expires = self.validate_access_token_expires(config)
@@ -26,9 +27,14 @@ class ConfigParser:
         self.errors = self.customize_error(config)
 
     @staticmethod
-    def validate_token_cookie_name(config: dict):
-        token_cookie_name = config.get('TOKEN_COOKIE_NAME', 'token')
-        return token_cookie_name
+    def validate_access_cookie_name(config: dict):
+        access_cookie_name = config.get('ACCESS_COOKIE_NAME', 'access_token')
+        return access_cookie_name
+    
+    @staticmethod
+    def validate_refresh_cookie_name(config: dict):
+        refresh_cookie_name = config.get('REFRESH_COOKIE_NAME', 'refresh_token')
+        return refresh_cookie_name
 
     @staticmethod
     def validate_jwt_algorithm(config: dict):

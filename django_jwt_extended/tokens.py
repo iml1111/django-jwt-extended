@@ -61,18 +61,21 @@ def _create_payload(identity, type: str, config: DjangoJwtExtConfig):
     }
 
 
-def _find_jwt_token(request, config: DjangoJwtExtConfig):
+def _find_jwt_token(request, refresh: bool, config: DjangoJwtExtConfig):
     for location in config.token_location:
         if (
             location == 'headers'
             and config.token_header_name in request.headers
         ):
             return request.headers[config.token_header_name], location
-        
-        elif (location == 'cookies'
-            and config.token_cookie_name in request.COOKIES
-        ):
-            return request.COOKIES[config.token_cookie_name], location
+
+        elif location == 'cookies':
+            if not refresh and config.access_cookie_name in request.COOKIES:
+                return request.COOKIES[config.access_cookie_name], location
+
+            elif refresh and config.refresh_cookie_name in request.COOKIES:
+                return request.COOKIES[config.refresh_cookie_name], location
+
     return None, None
 
 

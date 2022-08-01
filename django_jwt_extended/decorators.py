@@ -34,7 +34,7 @@ def jwt_required(optional=False, refresh=False):
 			if request is None:
 				raise NotFoundRequest(fn.__name__)
 			config = apps.get_app_config('django_jwt_extended')
-			jwt_token, location = _find_jwt_token(request, config)
+			jwt_token, location = _find_jwt_token(request, refresh, config)
 
 			# 토큰을 찾을 수 없을 경우
 			if not optional and jwt_token is None:
