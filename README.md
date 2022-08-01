@@ -122,19 +122,28 @@ How long a refresh token should be valid before it expires. This can be a number
 
 ### Custom Error Responses
 
-When your app encounters different situations, returns different error responses. When your app encounters different situations, it returns different error responses.
+When your app encounters different situations, returns different error responses with 401. When your app encounters different situations, it returns different error responses.
 
-- JWT_NOT_FOUND_MSG
+- **JWT_NOT_FOUND_MSG**
 
 When your app encounters different situations, it returns different error responses.
 
-- DECODE_ERROR_MSG
+- **DECODE_ERROR_MSG**
 
-- EXPIRED_TOKEN_MSG
+Returned when the Token signature value is invalid.
 
-- INVALID_TOKEN_TYPE_MSG
+- **EXPIRED_TOKEN_MSG**
 
-- INVALID_NBF_MSG
+If the corresponding token has expired, it will be returned.
 
-- BEARER_ERROR_MSG
+- **INVALID_TOKEN_TYPE_MSG**
 
+In case of an unexpected token type (access or refresh), it is returned.
+
+- **INVALID_NBF_MSG**
+
+If the nbf value does not exceed the current time, it is returned.
+
+- **BEARER_ERROR_MSG**
+
+Returned if token was found in Header, but does not start with Bearer.
