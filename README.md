@@ -1,6 +1,6 @@
 # Django-JWT-Extended
 
-![Python versions](https://img.shields.io/pypi/pyversions/django-jwt-extended) ![License](https://img.shields.io/badge/license-MIT-green) ![Release](https://img.shields.io/badge/release-1.0.0-red)
+![Python versions](https://img.shields.io/pypi/pyversions/django-jwt-extended) ![License](https://img.shields.io/badge/license-MIT-green) ![Release](https://img.shields.io/pypi/v/django-jwt-extended)
 
 Implement JWT authentication with Django quickly and easily!
 
