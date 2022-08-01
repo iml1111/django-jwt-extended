@@ -3,6 +3,7 @@
 ![Python versions](https://img.shields.io/pypi/pyversions/django-jwt-extended) ![License](https://img.shields.io/badge/license-MIT-green) ![Release](https://img.shields.io/pypi/v/django-jwt-extended)
 
 Implement JWT authentication with Django quickly and easily!
+**Inspired by [flask-jwt-extended](https://github.com/vimalloc/flask-jwt-extended).**
 
 
 
@@ -56,6 +57,12 @@ def user(request):
     identity = get_jwt_identity(request) # "iml"
     return JsonResponse({'id': identity,})
 ```
+
+
+
+# Advanced Usage
+
+...
 
 
 
@@ -127,14 +134,3 @@ How long a refresh token should be valid before it expires. This can be a number
 
 - BEARER_ERROR_MSG
 
-
-
-
-
-# Advanced Usage
-
-
-
-# inspired by
-
-- https://github.com/vimalloc/flask-jwt-extended
