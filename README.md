@@ -66,7 +66,9 @@ This section goes into more detail about django-jwt-extended.
 
 ## Return with refresh token
 
-If you want to return not only the access token but also the refresh token, you can use it as follows.
+If you want to return not only the access token but also the refresh token, you can use it as follows. `Identity` is input as an argument to generate tokens. 
+
+This `Identity` can contain any object that **can be serialized as json**, and is stored in "sub" of JWT Schema.
 
 ```python
 from django_jwt_extended import create_access_token
@@ -82,13 +84,76 @@ def login(request):
 
 ## Refresh Token Authentication
 
-## Optional Authentication
+When you want to perform authentication through refresh token, Set the refresh argument to `True` as shown below.
+
+```python
+# Refresh tokens
+@jwt_required(refresh=True) # refresh token check
+def refresh(request):
+    identity = get_jwt_identity(request)
+    return JsonResponse({
+        "access_token": create_access_token(identity),
+        'refresh_token': create_refresh_token(identity),
+    })
+```
 
 ## Parse JWT Payload
 
-## Custom Decorator
+There are two ways to get the contents of jwt token. These are `get_jwt_identity` and `get_jwt`. 
 
+ `get_jwt_identity` returns the identity value given when creating the token as it is.
 
+`get_jwt` returns the full payload that decoded the jwt token.
+
+```python
+# Authentication access token
+@jwt_required()
+def user(request):
+    identity = get_jwt_identity(request)
+    payload = get_jwt(request)
+    return JsonResponse({
+        'id': identity,
+        'raw_jwt': payload,
+    })
+```
+
+## Optional Authentication
+
+ If the optional argument is `True`, the verification step is passed even if the corresponding token does not exist. However, in this case, even if **identity or jwt payload** is called, `None` is returned.
+
+```python
+# Optional Login example
+@jwt_required(optional=True)
+def user_optional(request):
+    identity = get_jwt_identity(request)
+    return JsonResponse({'id': identity})
+```
+
+## Custom Decorator Pattern
+
+If it is cumbersome to implement the `jwt_required` logic repeatedly every time, you can implement a custom decorator as shown below. This is only an example, and more various methods may exist.
+
+```python
+# Authentication access token with Decorator
+def login_required(func):
+    @jwt_required()
+    def wrapper(request, **path):
+        identity = get_jwt_identity(request)
+        request.META['logined_identity'] = identity # before request
+        response = func(request, **path)
+        request.META.pop('logined_identity') # after request
+        return response
+    return wrapper
+
+@login_required
+def decorator_user(request):
+    identity = request.META['logined_identity']
+    payload = get_jwt(request)
+    return JsonResponse({
+        'id': identity,
+        'raw_jwt': payload,
+    })
+```
 
 
 
