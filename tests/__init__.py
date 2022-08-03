@@ -50,9 +50,12 @@ def setup_django():
         ),
         JWT_CONFIG = {
             'ALGORITHM': 'HS256',
-            'LOCATION': ['headers'],
+            'LOCATION': ['headers', 'cookies'],
             'ACCESS_TOKEN_EXPIRES': timedelta(days=2),
             'REFRESH_TOKEN_EXPIRES': timedelta(days=30),
+            'JWT_NOT_FOUND_MSG': {'msg': "can't find JWT token."},
+            'ACCESS_TOKEN_COOKIE_NAME': 'access_token',
+            'REFRESH_TOKEN_COOKIE_NAME': 'refresh_token'
         },
         TIME_ZONE='Asia/Seoul',
         USE_TZ=False,
@@ -60,3 +63,5 @@ def setup_django():
     )
 
     django.setup()
+
+setup_django()
