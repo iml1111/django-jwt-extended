@@ -70,11 +70,10 @@ def _find_jwt_token(request, refresh: bool, config: DjangoJwtExtConfig):
             return request.headers[config.token_header_name], location
 
         elif location == 'cookies':
-            if not refresh and config.access_cookie_name in request.COOKIES:
-                return request.COOKIES[config.access_cookie_name], location
-
-            elif refresh and config.refresh_cookie_name in request.COOKIES:
-                return request.COOKIES[config.refresh_cookie_name], location
+            if not refresh and config.access_token_cookie_name in request.COOKIES:
+                return request.COOKIES[config.access_token_cookie_name], location
+            elif refresh and config.refresh_token_cookie_name in request.COOKIES:
+                return request.COOKIES[config.refresh_token_cookie_name], location
 
     return None, None
 
