@@ -201,7 +201,7 @@ Additional settings can be added as follows in the form of a dictionary.
 - Default: `HS256`
 - Allowed_values: `HS256`
 
-Select the encode/decode algorithm for issuing tokens. (Currently only '**HS256**' is supported)
+Select the encode/decode algorithm to issue tokens. (Currently only '**HS256**' is supported)
 
 ### LOCATION
 
@@ -227,7 +227,7 @@ For headers, the header name is fixed to **"Authorization"**, and the token form
 - Default: `access_token`
 - Allowed_types: `string`
 
-The name of the cookie that will hold the access token.
+The name of the cookie that will store the access token.
 
 ### REFRESH_TOKEN_COOKIE_NAME
 
@@ -236,7 +236,7 @@ The name of the cookie that will hold the access token.
 - Default: `refresh_token`
 - Allowed_types: `string`
 
-The name of the cookie that will hold the refresh token.
+The name of the cookie that will store the refresh token.
 
 ### ACCESS_TOKEN_EXPIRES
 
@@ -263,11 +263,11 @@ How long a refresh token should be valid before it expires. This can be a number
 - Default: `[json-object]`
 - Allowed_types: `Dict (json serializable)`
 
-When your app encounters different situations, returns different error responses with 401. When your app encounters different situations, it returns different error responses.
+When your app encounters different situations, it returns different error responses with 401.
 
 - **JWT_NOT_FOUND_MSG**
 
-When your app encounters different situations, it returns different error responses.
+Returned when you can't find the token in any locations.
 
 - **DECODE_ERROR_MSG**
 
@@ -275,15 +275,15 @@ Returned when the Token signature value is invalid.
 
 - **EXPIRED_TOKEN_MSG**
 
-If the corresponding token has expired, it will be returned.
+Returned when the corresponding token has expired.
 
 - **INVALID_TOKEN_TYPE_MSG**
 
-In case of an unexpected token type (access or refresh), it is returned.
+Returned when an unexpected token type (access or refresh).
 
 - **INVALID_NBF_MSG**
 
-If the nbf value does not exceed the current time, it is returned.
+Returned when the nbf value does not exceed the current time.
 
 - **BEARER_ERROR_MSG**
 
