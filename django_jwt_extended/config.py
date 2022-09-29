@@ -86,6 +86,7 @@ class ConfigParser:
             'DECODE_ERROR_MSG': {'msg': 'Signature verification failed.'},
             'EXPIRED_TOKEN_MSG': {'msg': 'JWT token has expired'},
             'INVALID_TOKEN_TYPE_MSG': {'msg': "Invalid JWT token type"},
+            'TOKEN_TYPE_NOT_FOUND_MSG': {'msg': 'JWT Token type not found.'},
             'INVALID_NBF_MSG': {'msg': "The token is not yet valid (nbf)"},
             'BEARER_ERROR_MSG': {
                 'msg':(

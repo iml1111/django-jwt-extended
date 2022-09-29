@@ -63,6 +63,8 @@ def jwt_required(optional=False, refresh=False):
 
 			# 토큰의 유효기간, 액세스/리프레시 검증
 			valid = _validate_payload(payload, 'refresh' if refresh else 'access')
+			if valid == 'type not found':
+				return JsonResponse(config.token_type_not_found_msg, status=401)
 			if valid == 'invalid type':
 				return JsonResponse(config.invalid_token_type_msg, status=401)
 

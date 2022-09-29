@@ -31,5 +31,6 @@ class DjangoJwtExtConfig(AppConfig):
         self.decode_error_msg = data.errors['DECODE_ERROR_MSG']
         self.expired_token_msg = data.errors['EXPIRED_TOKEN_MSG']
         self.invalid_token_type_msg = data.errors['INVALID_TOKEN_TYPE_MSG']
+        self.token_type_not_found_msg = data.errors['TOKEN_TYPE_NOT_FOUND_MSG']
         self.invalid_nbf_msg = data.errors['INVALID_NBF_MSG']
         

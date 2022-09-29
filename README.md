@@ -281,6 +281,10 @@ Returned when the corresponding token has expired.
 
 Returned when an unexpected token type (access or refresh).
 
+- **TOKEN_TYPE_NOT_FOUND_MSG**
+
+Returned when it doesn't our meet our JWT Standards.
+
 - **INVALID_NBF_MSG**
 
 Returned when the nbf value does not exceed the current time.

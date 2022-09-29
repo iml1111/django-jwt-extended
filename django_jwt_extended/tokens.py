@@ -89,7 +89,9 @@ def _parse_jwt_token(jwt_token: str, location: str):
 
 
 def _validate_payload(payload: dict, type: str):
-    if payload['type'] != type:
+    if 'type' not in payload:
+        return 'type not found'
+    elif payload['type'] != type:
         return 'invalid type'
     else:
         return "valid"

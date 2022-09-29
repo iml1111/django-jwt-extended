@@ -8,7 +8,7 @@ from .tokens import (
 )
 
 __AUTHOR__ = "IML"
-__VERSION__ = "1.0.0"
+__VERSION__ = "1.1.0"
 
 default_app_config = 'django_jwt_extended.apps.DjangoJwtExtConfig'
 
