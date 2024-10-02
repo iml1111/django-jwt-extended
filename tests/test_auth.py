@@ -8,6 +8,19 @@ from tests.sample.views import (
     user, user_optional,
     RestAPIView, rest_user
 )
+from django_jwt_extended.exceptions import (
+	RequestNotFound,
+	InvalidOptionalType,
+	InvalidRefreshType,
+	JWTNotFound,
+	InvalidBearerFormat,
+	InvalidTokenType,
+	TokenTypeNotFound,
+)
+from jwt.exceptions import (
+    ExpiredSignatureError,
+    InvalidSignatureError,
+)
 
 
 class AuthTestCase(unittest.TestCase):
@@ -119,18 +132,15 @@ class AuthTestCase(unittest.TestCase):
                 "Bearer " + invalid_token
             )
         )
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
+        
+        with self.assertRaises(InvalidSignatureError):
+            user(request)
 
     def test_token_not_found(self):
         """Test No Input Token Auth"""
         request = self.factory.get('/user')
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(
-            response.content.decode(encoding='utf8'),
-            json.dumps({'msg': "can't find JWT token."})
-        )
+        with self.assertRaises(JWTNotFound):
+            user(request)
 
     def test_token_header_not_bearer(self):
         """Test Token Header Not Bearer"""
@@ -140,8 +150,9 @@ class AuthTestCase(unittest.TestCase):
                 self.access_token
             )
         )
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
+        
+        with self.assertRaises(InvalidBearerFormat):
+            user(request)
 
     def test_expired_token_auth(self):
         """Test Expired Token Auth"""
@@ -156,8 +167,8 @@ class AuthTestCase(unittest.TestCase):
                 "Bearer " + exp_token
             )
         )
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
+        with self.assertRaises(ExpiredSignatureError):
+            user(request)
 
     #cookie test
     def test_auth_basic_cookie(self):
@@ -231,18 +242,16 @@ class AuthTestCase(unittest.TestCase):
 
         request = self.factory.get('/user')
         request.COOKIES = {'access_token': invalid_token}
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
+        
+        with self.assertRaises(InvalidSignatureError):
+            user(request)
 
     def test_token_not_found_cookie(self):
         """Test No Input Token Auth"""
         request = self.factory.get('/user')
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(
-            response.content.decode(encoding='utf8'),
-            json.dumps({'msg': "can't find JWT token."})
-        )
+        
+        with self.assertRaises(JWTNotFound):
+            user(request)
 
     def test_expired_token_auth_cookie(self):
         """Test Expired Token Auth"""
@@ -252,9 +261,11 @@ class AuthTestCase(unittest.TestCase):
         exp_token = jwt.encode(payload, secret_key, algorithm)
 
         request = self.factory.get('/user')
-        request.COOKIE = {'access_token': exp_token}
-        response = user(request)
-        self.assertEqual(response.status_code, 401)
+        request.COOKIES = {'access_token': exp_token}
+        
+        with self.assertRaises(ExpiredSignatureError):
+            user(request)
+        
 
     def _get_tokens(self):
         request = self.factory.get('/login')

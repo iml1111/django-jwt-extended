@@ -25,12 +25,4 @@ class DjangoJwtExtConfig(AppConfig):
         self.token_header_name = 'Authorization'
         self.access_token_cookie_name = data.access_token_cookie_name
         self.refresh_token_cookie_name = data.refresh_token_cookie_name
-
-        self.jwt_not_found_msg = data.errors['JWT_NOT_FOUND_MSG']
-        self.bearer_error_msg = data.errors['BEARER_ERROR_MSG']
-        self.decode_error_msg = data.errors['DECODE_ERROR_MSG']
-        self.expired_token_msg = data.errors['EXPIRED_TOKEN_MSG']
-        self.invalid_token_type_msg = data.errors['INVALID_TOKEN_TYPE_MSG']
-        self.token_type_not_found_msg = data.errors['TOKEN_TYPE_NOT_FOUND_MSG']
-        self.invalid_nbf_msg = data.errors['INVALID_NBF_MSG']
-        
+   

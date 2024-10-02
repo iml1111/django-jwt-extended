@@ -1,4 +1,3 @@
-from .exceptions import NotFoundRequest
 from django.http import HttpRequest
 from django.core.handlers.asgi import ASGIRequest
 from django.core.handlers.wsgi import WSGIRequest

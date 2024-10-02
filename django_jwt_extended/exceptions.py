@@ -1,4 +1,4 @@
-class NotFoundRequest(Exception):
+class RequestNotFound(Exception):
 
     def __init__(self, fn_name: str):
         self.fn_name = fn_name
@@ -70,7 +70,7 @@ class InvalidRequest(Exception):
         )
 
 
-class InvalidOptional(Exception):
+class InvalidOptionalType(Exception):
 
     def __init__(self, param: str):
         self.param = param
@@ -81,7 +81,7 @@ class InvalidOptional(Exception):
         )
 
 
-class InvalidRefresh(Exception):
+class InvalidRefreshType(Exception):
 
     def __init__(self, param: str):
         self.param = param
@@ -99,3 +99,32 @@ class InvalidJsonFormat(Exception):
             f"Invalid JSON format."
             f"Error config must be JSON serializable."
         )
+
+
+class JWTNotFound(Exception):
+
+    def __str__(self):
+        return "JWT Token was not found."
+
+
+class InvalidBearerFormat(Exception):
+
+    def __str__(self):
+        return (
+            "Missing 'Bearer' type in "
+            "'Authorization' header."
+            " Expected 'Authorization: "
+            "Bearer <JWT>'"
+        )
+
+
+class InvalidTokenType(Exception):
+
+    def __str__(self):
+        return "Invalid JWT token type."
+
+
+class TokenTypeNotFound(Exception):
+
+    def __str__(self):
+        return "JWT Token type not found."
